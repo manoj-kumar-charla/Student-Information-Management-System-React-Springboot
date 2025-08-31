@@ -1,0 +1,21 @@
+package net.cgisms.ems.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.sql.SQLException;
+//@RestControllerAdvice
+@ControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<?> handleSQLException(SQLException e){
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException e){
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+}
